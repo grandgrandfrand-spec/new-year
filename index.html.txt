@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy New Year Fatima 🎆</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    height: 100vh;
+    background: radial-gradient(circle at top, #020024, #090979, #000);
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+}
+
+/* FADED PHOTO BACKGROUND */
+.bg-photo {
+    position: fixed;
+    inset: 0;
+    background: url("fatima.jpg") center/cover no-repeat;
+    opacity: 0.15;
+    filter: blur(2px);
+    z-index: 1;
+}
+
+/* CENTER CONTENT */
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    padding: 10px;
+}
+
+h1 {
+    font-size: 3rem;
+    animation: glow 2s infinite alternate;
+}
+
+h2 {
+    margin-top: 10px;
+    font-size: 1.8rem;
+    color: #ffb6c1;
+}
+
+p {
+    margin-top: 12px;
+    font-size: 1.1rem;
+    color: #ffe6f0;
+}
+
+#countdown {
+    margin-top: 15px;
+    font-size: 1.3rem;
+    color: #ffd700;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #fff; }
+    to { text-shadow: 0 0 40px #ff69b4, 0 0 80px #ffd700; }
+}
+
+/* FIREWORKS */
+.firework {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: explode 1.6s ease-out forwards;
+    z-index: 5;
+}
+
+@keyframes explode {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(25); opacity: 0; }
+}
+
+/* HEARTS */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: floatUp 6s linear forwards;
+    z-index: 4;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-800px); opacity: 0; }
+}
+
+/* MOBILE */
+@media(max-width: 600px){
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.4rem; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-photo"></div>
+
+<div class="center">
+    <h1>🎆 Happy New Year 🎆</h1>
+    <h2>Dear Fatima 💖</h2>
+
+    <p>
+        May this year bring you peace, smiles,<br>
+        aur bohat si khushiyan ✨
+    </p>
+
+    <p style="font-style: italic; color:#ffddee;">
+        Hamesha khush raho — you deserve the best 🌸
+    </p>
+
+    <div id="countdown"></div>
+</div>
+
+<!-- MUSIC -->
+<audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_74b3db0f98.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// AUTO FIREWORKS
+setInterval(() => {
+    createFirework(
+        Math.random() * window.innerWidth,
+        Math.random() * window.innerHeight
+    );
+}, 350);
+
+// CLICK / TAP FIREWORKS
+document.addEventListener("click", e => {
+    createFirework(e.clientX, e.clientY);
+});
+
+function createFirework(x, y){
+    const fw = document.createElement("div");
+    fw.className = "firework";
+    fw.style.left = x + "px";
+    fw.style.top = y + "px";
+    fw.style.background = `hsl(${Math.random()*360},100%,50%)`;
+    document.body.appendChild(fw);
+    setTimeout(() => fw.remove(), 1600);
+}
+
+// HEARTS
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.bottom = "0px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}, 500);
+
+// COUNTDOWN
+const countdown = document.getElementById("countdown");
+
+function updateCountdown(){
+    const now = new Date();
+    const nextYear = new Date(`January 1, ${now.getFullYear()+1} 00:00:00`);
+    const diff = nextYear - now;
+
+    const d = Math.floor(diff / (1000*60*60*24));
+    const h = Math.floor((diff / (1000*60*60)) % 24);
+    const m = Math.floor((diff / (1000*60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+
+    countdown.innerHTML = `⏳ ${d}d ${h}h ${m}m ${s}s until New Year`;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// MIDNIGHT TRANSITION
+setInterval(() => {
+    const now = new Date();
+    if (now.getHours() === 0 && now.getMinutes() === 0) {
+        document.body.style.background =
+            "radial-gradient(circle at top, #3b2f00, #b8860b, #000)";
+    }
+}, 60000);
+</script>
+
+</body>
+</html>
