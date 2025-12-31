@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy New Year Fatima!</title>
 <style>
-    /* Full screen background with Fatima's photo */
     body {
         margin: 0;
         height: 100vh;
@@ -31,22 +30,21 @@
         z-index: 0;
     }
 
-    /* Animated text */
-    h1 {
+    /* Countdown / text */
+    #countdown, #message {
         position: relative;
         z-index: 1;
-        font-size: 4em;
+        font-size: 3em;
         text-align: center;
-        opacity: 0;
-        animation: fadeInOut 4s infinite;
-        text-shadow: 0 0 20px #ffdd59, 0 0 30px #ff6b81, 0 0 40px #ffdd59;
+        text-shadow: 0 0 15px #ffdd59, 0 0 25px #ff6b81, 0 0 35px #ffdd59;
+        animation: fadeInOut 2s ease-in-out infinite;
         word-break: break-word;
-        padding: 0 10px;
+        padding: 0 15px;
     }
 
     @keyframes fadeInOut {
-        0%,100% { opacity:0; transform: scale(0.8);}
-        50% { opacity:1; transform: scale(1.1);}
+        0%,100% { opacity: 0; transform: scale(0.9);}
+        50% { opacity: 1; transform: scale(1.1);}
     }
 
     /* Fireworks */
@@ -67,31 +65,56 @@
 </style>
 </head>
 <body>
-<h1>🎉 Happy New Year, Fatima! 🎉</h1>
+
+<h1 id="countdown"></h1>
+<h1 id="message" style="display:none;">🎉 Happy New Year, Fatima! 🎉</h1>
 
 <script>
+    const newYear = new Date("Jan 1, 2026 00:00:00").getTime();
+    const countdownEl = document.getElementById('countdown');
+    const messageEl = document.getElementById('message');
+
     // Fireworks generator
     function createFirework(){
         const firework = document.createElement('div');
         firework.classList.add('firework');
 
-        // Random position
         firework.style.left = Math.random() * window.innerWidth + 'px';
         firework.style.top = Math.random() * window.innerHeight + 'px';
 
-        // Random explosion direction
         const angle = Math.random() * 2 * Math.PI;
         const distance = Math.random() * 100 + 50;
         firework.style.setProperty('--x', Math.cos(angle) * distance + 'px');
         firework.style.setProperty('--y', Math.sin(angle) * distance + 'px');
 
         document.body.appendChild(firework);
-
         setTimeout(()=>{ firework.remove(); }, 1000);
     }
 
-    // Fireworks interval
-    setInterval(createFirework, 300);
+    let fireworksInterval;
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = newYear - now;
+
+        if(distance <= 0){
+            countdownEl.style.display = "none";
+            messageEl.style.display = "block";
+            // start fireworks
+            fireworksInterval = setInterval(createFirework, 200);
+            return;
+        }
+
+        const days = Math.floor(distance / (1000*60*60*24));
+        const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+        const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+        countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
 </script>
 </body>
 </html>
