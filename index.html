@@ -1,94 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Happy New Year Fatima!</title>
-    <style>
-        /* Full screen background with Fatima's photo */
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: url('fatima.jpg') no-repeat center center;
-            background-size: cover;
-            overflow: hidden;
-            font-family: 'Arial', sans-serif;
-            color: #fff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy New Year Fatima!</title>
+<style>
+    /* Full screen background with Fatima's photo */
+    body {
+        margin: 0;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url('fatima.jpg') no-repeat center center;
+        background-size: cover;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+        color: #fff;
+        position: relative;
+    }
 
-        /* Overlay for darkening the photo */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 0;
-        }
+    /* Dark overlay */
+    body::before {
+        content: "";
+        position: absolute;
+        top:0; left:0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 0;
+    }
 
-        /* Text animation */
-        h1 {
-            position: relative;
-            z-index: 1;
-            font-size: 4em;
-            text-align: center;
-            opacity: 0;
-            animation: fadeInOut 4s infinite;
-            text-shadow: 0 0 20px #ffdd59, 0 0 30px #ff6b81, 0 0 40px #ffdd59;
-        }
+    /* Animated text */
+    h1 {
+        position: relative;
+        z-index: 1;
+        font-size: 4em;
+        text-align: center;
+        opacity: 0;
+        animation: fadeInOut 4s infinite;
+        text-shadow: 0 0 20px #ffdd59, 0 0 30px #ff6b81, 0 0 40px #ffdd59;
+        word-break: break-word;
+        padding: 0 10px;
+    }
 
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0; transform: scale(0.8);}
-            50% { opacity: 1; transform: scale(1.1);}
-        }
+    @keyframes fadeInOut {
+        0%,100% { opacity:0; transform: scale(0.8);}
+        50% { opacity:1; transform: scale(1.1);}
+    }
 
-        /* Fireworks effect */
-        .firework {
-            position: absolute;
-            border-radius: 50%;
-            width: 5px;
-            height: 5px;
-            background: white;
-            animation: explode 1s ease-out forwards;
-            z-index: 1;
-        }
+    /* Fireworks */
+    .firework {
+        position: fixed;
+        border-radius: 50%;
+        width: 5px;
+        height: 5px;
+        background: white;
+        animation: explode 1s ease-out forwards;
+        z-index: 1;
+    }
 
-        @keyframes explode {
-            0% { transform: scale(1) translate(0,0); opacity: 1;}
-            100% { transform: scale(0.5) translate(var(--x), var(--y)); opacity: 0;}
-        }
-    </style>
+    @keyframes explode {
+        0% { transform: scale(1) translate(0,0); opacity:1; }
+        100% { transform: scale(0.5) translate(var(--x), var(--y)); opacity:0; }
+    }
+</style>
 </head>
 <body>
-    <h1>🎉 Happy New Year, Fatima! 🎉</h1>
+<h1>🎉 Happy New Year, Fatima! 🎉</h1>
 
-    <script>
-        // Fireworks generator
-        function createFirework() {
-            const firework = document.createElement('div');
-            firework.classList.add('firework');
+<script>
+    // Fireworks generator
+    function createFirework(){
+        const firework = document.createElement('div');
+        firework.classList.add('firework');
 
-            // Random position
-            firework.style.left = Math.random() * window.innerWidth + 'px';
-            firework.style.top = Math.random() * window.innerHeight + 'px';
+        // Random position
+        firework.style.left = Math.random() * window.innerWidth + 'px';
+        firework.style.top = Math.random() * window.innerHeight + 'px';
 
-            // Random explosion direction
-            const angle = Math.random() * 2 * Math.PI;
-            const distance = Math.random() * 100 + 50;
-            firework.style.setProperty('--x', Math.cos(angle) * distance + 'px');
-            firework.style.setProperty('--y', Math.sin(angle) * distance + 'px');
+        // Random explosion direction
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = Math.random() * 100 + 50;
+        firework.style.setProperty('--x', Math.cos(angle) * distance + 'px');
+        firework.style.setProperty('--y', Math.sin(angle) * distance + 'px');
 
-            document.body.appendChild(firework);
+        document.body.appendChild(firework);
 
-            setTimeout(() => {
-                firework.remove();
-            }, 1000);
-        }
+        setTimeout(()=>{ firework.remove(); }, 1000);
+    }
 
-        // Create fireworks repeatedly
-        setInterval(createFirework, 300);
-    </script>
+    // Fireworks interval
+    setInterval(createFirework, 300);
+</script>
 </body>
 </html>
