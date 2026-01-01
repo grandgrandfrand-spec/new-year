@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>For Fatima | 2024</title>
+    <title>2026 | Fatima</title>
     <style>
         :root {
             --gold: #f5d27a;
+            --white: #ffffff;
             --soft-white: #f3e9d2;
         }
 
@@ -14,7 +15,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Poppins", "Segoe UI", sans-serif;
+            font-family: "Georgia", serif;
         }
 
         body {
@@ -24,82 +25,88 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
         }
 
-        /* The background photo with better visibility */
+        /* Background photo with Breathing effect */
         #bg {
             position: fixed;
-            inset: -5%; /* Slight overflow for parallax effect */
+            inset: 0;
             background: url("fatima.jpg") center/cover no-repeat;
-            opacity: 0.4;
-            filter: contrast(1.1) brightness(0.8);
-            transition: transform 0.2s ease-out;
+            opacity: 0.5;
+            filter: brightness(0.6) contrast(1.1);
             z-index: 0;
+            animation: breathe 15s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
         }
 
         .overlay {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+            background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.9) 100%);
             z-index: 1;
         }
 
-        /* Cinematic Glass Card */
-        .card {
+        /* Center Title */
+        .main-content {
             position: relative;
             z-index: 10;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
             text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            max-width: 90%;
-            width: 500px;
+            pointer-events: none;
+            user-select: none;
         }
 
         h1 {
-            font-size: clamp(2rem, 8vw, 3rem);
+            font-size: clamp(2.5rem, 12vw, 5rem);
             color: var(--gold);
-            margin-bottom: 20px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(245, 210, 122, 0.5);
+            font-weight: 100;
+            letter-spacing: 12px;
+            text-shadow: 0 0 30px rgba(245, 210, 122, 0.3);
+            text-transform: uppercase;
         }
 
-        .message {
-            font-size: 1.1rem;
-            line-height: 1.8;
+        .sub-text {
             color: var(--soft-white);
-            min-height: 3em;
+            letter-spacing: 5px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            opacity: 0.6;
         }
 
-        /* Floating elements */
-        .particle {
+        /* Aesthetic Drifting Quotes */
+        .drifting-quote {
             position: absolute;
+            color: var(--soft-white);
+            font-style: italic;
+            font-size: clamp(0.8rem, 2.5vw, 1.1rem);
+            letter-spacing: 1.5px;
             pointer-events: none;
-            border-radius: 50%;
             z-index: 5;
+            opacity: 0;
+            animation: driftFade 10s ease-in-out forwards;
+        }
+
+        @keyframes driftFade {
+            0% { opacity: 0; transform: translateY(30px); filter: blur(5px); }
+            20% { opacity: 0.5; filter: blur(0px); }
+            80% { opacity: 0.5; filter: blur(0px); }
+            100% { opacity: 0; transform: translateY(-60px); filter: blur(2px); }
+        }
+
+        /* Confetti Pieces */
+        .confetti {
+            position: absolute;
+            z-index: 15;
+            pointer-events: none;
+            animation: fall linear forwards;
         }
 
         @keyframes fall {
-            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Fireworks */
-        .spark {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            z-index: 15;
-            animation: explode 1s ease-out forwards;
-        }
-
-        @keyframes explode {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(30); opacity: 0; }
+            to { transform: translateY(110vh) rotate(720deg); }
         }
     </style>
 </head>
@@ -108,79 +115,74 @@
     <div id="bg"></div>
     <div class="overlay"></div>
 
-    <div class="card">
-        <h1 id="title">Happy New Year, Fatima</h1>
-        <div class="message" id="quote-display"></div>
+    <div class="main-content">
+        <h1>Fatima</h1>
+        <div class="sub-text">CHAPTER 2026</div>
     </div>
 
     <script>
-        const quotes = [
-            "May your year be as beautiful as your soul.",
-            "New chapters, same wonderful person.",
-            "Here is to the moments that take our breath away.",
-            "May your 2024 be filled with gentle light.",
-            "Thank you for being part of my journey."
+        const aestheticQuotes = [
+            "Soft moments, loud memories.",
+            "May this year be kind to you.",
+            "A new year, a new light.",
+            "Your soul is a masterpiece.",
+            "Keep blooming in your own time.",
+            "The universe is in your favor.",
+            "Quiet magic is everywhere.",
+            "2026: Your year of peace.",
+            "Radiate beauty from within."
         ];
 
-        let currentQuote = 0;
-        const quoteDisplay = document.getElementById('quote-display');
-        const bg = document.getElementById('bg');
-
-        // Typewriter effect for quotes
-        function typeQuote() {
-            let text = quotes[currentQuote];
-            quoteDisplay.style.opacity = 0;
+        // Create the floating quotes
+        function createDriftingQuote() {
+            const q = document.createElement('div');
+            q.className = 'drifting-quote';
+            q.textContent = aestheticQuotes[Math.floor(Math.random() * aestheticQuotes.length)];
             
-            setTimeout(() => {
-                quoteDisplay.textContent = text;
-                quoteDisplay.style.opacity = 1;
-                quoteDisplay.style.transition = 'opacity 1.5s';
-            }, 1000);
-
-            currentQuote = (currentQuote + 1) % quotes.length;
+            q.style.top = (Math.random() * 70 + 15) + '%';
+            q.style.left = (Math.random() * 60 + 5) + '%';
+            
+            document.body.appendChild(q);
+            setTimeout(() => q.remove(), 10000);
         }
 
-        // Parallax Effect
-        document.addEventListener('mousemove', (e) => {
-            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
-            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
-            bg.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.1)`;
-        });
-
-        // Create Falling Particles (Hearts and Stars)
-        function createParticle() {
-            const p = document.createElement('div');
-            const isHeart = Math.random() > 0.5;
-            p.className = 'particle';
-            p.innerHTML = isHeart ? '✨' : '❤';
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.top = '-20px';
-            p.style.fontSize = (Math.random() * 10 + 10) + 'px';
-            p.style.opacity = Math.random();
-            p.style.color = isHeart ? '#f5d27a' : '#ff4d6d';
-            p.style.animation = `fall ${Math.random() * 3 + 4}s linear forwards`;
+        // Confetti Burst Logic
+        function fireConfetti(x, y, amount = 30) {
+            const colors = ['#f5d27a', '#ffffff', '#e6be58', '#f3e9d2'];
             
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 7000);
-        }
-
-        // Create Fireworks on Click
-        document.addEventListener('click', (e) => {
-            for(let i=0; i<8; i++) {
-                const spark = document.createElement('div');
-                spark.className = 'spark';
-                spark.style.left = e.clientX + 'px';
-                spark.style.top = e.clientY + 'px';
-                spark.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
-                document.body.appendChild(spark);
-                setTimeout(() => spark.remove(), 1000);
+            for (let i = 0; i < amount; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                
+                const size = Math.random() * 8 + 4 + 'px';
+                c.style.width = size;
+                c.style.height = size;
+                c.style.background = colors[Math.floor(Math.random() * colors.length)];
+                c.style.left = x + (Math.random() * 100 - 50) + 'px';
+                c.style.top = y + 'px';
+                
+                const duration = Math.random() * 3 + 2;
+                c.style.animationDuration = duration + 's';
+                c.style.opacity = Math.random();
+                
+                document.body.appendChild(c);
+                setTimeout(() => c.remove(), duration * 1000);
             }
+        }
+
+        // Continuous light gold rain
+        setInterval(() => {
+            fireConfetti(Math.random() * window.innerWidth, -20, 2);
+        }, 400);
+
+        // Click to burst
+        document.addEventListener('mousedown', (e) => {
+            fireConfetti(e.clientX, e.clientY, 40);
         });
 
-        // Initialize
-        setInterval(createParticle, 300);
-        setInterval(typeQuote, 5000);
-        typeQuote();
+        // Quote Intervals - fast enough to overlap
+        setInterval(createDriftingQuote, 3500);
+        createDriftingQuote(); // Start one immediately
 
     </script>
 </body>
