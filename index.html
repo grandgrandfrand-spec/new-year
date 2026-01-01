@@ -6,171 +6,148 @@
 <title>Happy New Year Fatima</title>
 
 <style>
-:root {
-    --gold: #d4af37;
-    --pink: #ffb6c1;
-}
-
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
 }
 
 body {
-    height: 100vh;
-    font-family: "Segoe UI", system-ui, sans-serif;
-    background: radial-gradient(circle at top, #020024, #090979, #000);
-    color: white;
-    overflow: hidden;
+  background: radial-gradient(circle at top, #1a0f00, #000);
+  overflow: hidden;
+  height: 100vh;
+  color: #fff;
 }
 
-/* FADED BACKGROUND PHOTO */
+/* Background photo */
 .bg-photo {
-    position: fixed;
-    inset: 0;
-    background: url("fatima.jpg") center / cover no-repeat;
-    opacity: 0.12;
-    filter: blur(3px);
-    z-index: 0;
-    pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: url("fatima.jpg") center/cover no-repeat;
+  opacity: 0.12;
+  filter: blur(3px);
+  z-index: 0;
+  pointer-events: none;
 }
 
-/* CENTER CONTENT */
+/* Soft overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,.9));
+  z-index: 1;
+}
+
+/* Center content */
 .center {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    z-index: 10;
-    padding: 20px;
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
 }
 
 h1 {
-    font-size: clamp(2.2rem, 5vw, 3.2rem);
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: var(--gold);
-    text-shadow: 0 0 18px rgba(212, 175, 55, 0.45);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #f5d27a;
+  text-shadow: 0 0 20px rgba(255,200,100,.35);
+  animation: fadeIn 2s ease forwards;
 }
 
-h2 {
-    margin-top: 12px;
-    font-size: 1.6rem;
-    font-weight: 500;
-    color: var(--pink);
+p {
+  margin-top: 14px;
+  font-size: 1.1rem;
+  color: #f3e9d2;
+  opacity: 0;
+  animation: fadeIn 2s ease forwards;
+  animation-delay: 1s;
 }
 
-.message {
-    margin-top: 18px;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 520px;
-    color: #f5f5f5;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.signature {
-    margin-top: 14px;
-    font-style: italic;
-    color: #ffddee;
-}
-
-/* FIREWORKS */
+/* Fireworks */
 .firework {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    animation: explode 1.6s ease-out forwards;
-    z-index: 20;
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: explode 1.6s ease-out forwards;
+  z-index: 30;
 }
 
 @keyframes explode {
-    from { transform: scale(1); opacity: 1; }
-    to   { transform: scale(26); opacity: 0; }
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(22); opacity: 0; }
 }
 
-/* HEARTS */
+/* Hearts */
 .heart {
-    position: absolute;
-    font-size: 18px;
-    animation: floatUp 6s linear forwards;
-    z-index: 15;
+  position: absolute;
+  font-size: 20px;
+  animation: floatUp 6s linear forwards;
+  z-index: 25;
 }
 
 @keyframes floatUp {
-    from { transform: translateY(0); opacity: 1; }
-    to   { transform: translateY(-900px); opacity: 0; }
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-    h2 { font-size: 1.3rem; }
-    .message { font-size: 1rem; }
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-120vh); opacity: 0; }
 }
 </style>
 </head>
 
 <body>
-
 <div class="bg-photo"></div>
+<div class="overlay"></div>
 
 <div class="center">
-    <h1>Happy New Year</h1>
-    <h2>Fatima</h2>
-
-    <div class="message">
-        May this year bring you peace, clarity,<br>
-        aur bohat si khushiyan ✨
-    </div>
-
-    <div class="signature">
-        Hamesha khush raho — you truly deserve it 🌸
-    </div>
+  <h1>Happy New Year, Fatima</h1>
+  <p>May this year bring you peace, smiles, and beautiful moments ✨</p>
 </div>
 
-<audio autoplay loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_74b3db0f98.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-// AUTO FIREWORKS
-setInterval(() => {
-    spawnFirework(
-        Math.random() * window.innerWidth,
-        Math.random() * window.innerHeight
-    );
-}, 500);
-
-// CLICK / TAP FIREWORKS
-document.addEventListener("click", e => {
-    spawnFirework(e.clientX, e.clientY);
-});
-
-function spawnFirework(x, y) {
-    const fw = document.createElement("div");
-    fw.className = "firework";
-    fw.style.left = x + "px";
-    fw.style.top = y + "px";
-    fw.style.background = `hsl(${Math.random() * 360}, 100%, 55%)`;
-    document.body.appendChild(fw);
-    setTimeout(() => fw.remove(), 1600);
+function random(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
-// HEARTS
-setInterval(() => {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "💖";
-    heart.style.left = Math.random() * window.innerWidth + "px";
-    heart.style.bottom = "0";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 6000);
-}, 800);
-</script>
+function firework(x, y) {
+  const f = document.createElement("div");
+  f.className = "firework";
+  f.style.left = x + "px";
+  f.style.top = y + "px";
+  f.style.background = `hsl(${random(0,360)}, 90%, 60%)`;
+  document.body.appendChild(f);
+  setTimeout(() => f.remove(), 1600);
+}
 
+function heart() {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.textContent = "💖";
+  h.style.left = random(0, window.innerWidth) + "px";
+  h.style.bottom = "-30px";
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 6000);
+}
+
+setInterval(() => {
+  firework(random(100, window.innerWidth-100), random(100, window.innerHeight-200));
+}, 700);
+
+setInterval(heart, 900);
+
+document.addEventListener("click", e => {
+  firework(e.clientX, e.clientY);
+});
+</script>
 </body>
 </html>
