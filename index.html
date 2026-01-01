@@ -1,221 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Happy New Year Fatima</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Fatima | 2024</title>
+    <style>
+        :root {
+            --gold: #f5d27a;
+            --soft-white: #f3e9d2;
+        }
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", system-ui, sans-serif;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", "Segoe UI", sans-serif;
+        }
 
-body {
-  background: radial-gradient(circle at top, #1a0f00, #000);
-  overflow: hidden;
-  height: 100vh;
-  color: #fff;
-}
+        body {
+            background: #000;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-/* Background photo */
-.bg-photo {
-  position: fixed;
-  inset: 0;
-  background: url("fatima.jpg") center/cover no-repeat;
-  opacity: 0.12;
-  filter: blur(3px);
-  z-index: 0;
-}
+        /* The background photo with better visibility */
+        #bg {
+            position: fixed;
+            inset: -5%; /* Slight overflow for parallax effect */
+            background: url("fatima.jpg") center/cover no-repeat;
+            opacity: 0.4;
+            filter: contrast(1.1) brightness(0.8);
+            transition: transform 0.2s ease-out;
+            z-index: 0;
+        }
 
-/* Overlay */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,.4), rgba(0,0,0,.9));
-  z-index: 1;
-}
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+            z-index: 1;
+        }
 
-/* Center content */
-.center {
-  position: relative;
-  z-index: 10;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px;
-}
+        /* Cinematic Glass Card */
+        .card {
+            position: relative;
+            z-index: 10;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            max-width: 90%;
+            width: 500px;
+        }
 
-h1 {
-  font-size: clamp(2.2rem, 5vw, 3.4rem);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: #f5d27a;
-  text-shadow: 0 0 22px rgba(255,200,100,.35);
-  animation: fadeIn 2s ease forwards;
-}
+        h1 {
+            font-size: clamp(2rem, 8vw, 3rem);
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(245, 210, 122, 0.5);
+        }
 
-p {
-  margin-top: 16px;
-  font-size: 1.15rem;
-  color: #f3e9d2;
-  opacity: 0;
-  animation: fadeIn 2s ease forwards;
-  animation-delay: 1.2s;
-}
+        .message {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--soft-white);
+            min-height: 3em;
+        }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+        /* Floating elements */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+            z-index: 5;
+        }
 
-/* Fireworks */
-.firework {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  animation: explode 1.6s ease-out forwards;
-  z-index: 30;
-}
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
 
-@keyframes explode {
-  from { transform: scale(1); opacity: 1; }
-  to { transform: scale(24); opacity: 0; }
-}
+        /* Fireworks */
+        .spark {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            z-index: 15;
+            animation: explode 1s ease-out forwards;
+        }
 
-/* Hearts */
-.heart {
-  position: absolute;
-  font-size: 20px;
-  animation: floatUp 6s linear forwards;
-  z-index: 25;
-}
-
-@keyframes floatUp {
-  from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(-120vh); opacity: 0; }
-}
-
-/* Quotes */
-.quote {
-  position: absolute;
-  max-width: 80%;
-  font-size: clamp(1rem, 3.5vw, 1.4rem);
-  font-weight: 400;
-  color: #f6e7c1;
-  opacity: 0;
-  text-align: center;
-  line-height: 1.6;
-  text-shadow: 0 0 18px rgba(255,215,120,0.25);
-  z-index: 20;
-  pointer-events: none;
-}
-
-.from-left {
-  left: -100%;
-  top: 35%;
-  animation: slideLeft 8s ease-in-out forwards;
-}
-
-.from-right {
-  right: -100%;
-  top: 45%;
-  animation: slideRight 8s ease-in-out forwards;
-}
-
-@keyframes slideLeft {
-  0%   { opacity: 0; transform: translateX(0); }
-  20%  { opacity: 1; transform: translateX(110vw); }
-  80%  { opacity: 1; transform: translateX(110vw); }
-  100% { opacity: 0; transform: translateX(120vw); }
-}
-
-@keyframes slideRight {
-  0%   { opacity: 0; transform: translateX(0); }
-  20%  { opacity: 1; transform: translateX(-110vw); }
-  80%  { opacity: 1; transform: translateX(-110vw); }
-  100% { opacity: 0; transform: translateX(-120vw); }
-}
-</style>
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(30); opacity: 0; }
+        }
+    </style>
 </head>
-
 <body>
-<div class="bg-photo"></div>
-<div class="overlay"></div>
 
-<div class="center">
-  <h1>Happy New Year, Fatima</h1>
-  <p>Some moments don’t make noise — they quietly become memories.</p>
-</div>
+    <div id="bg"></div>
+    <div class="overlay"></div>
 
-<script>
-function random(min, max) {
-  return Math.random() * (max - min) + min;
-}
+    <div class="card">
+        <h1 id="title">Happy New Year, Fatima</h1>
+        <div class="message" id="quote-display"></div>
+    </div>
 
-/* Fireworks */
-function firework(x, y) {
-  const f = document.createElement("div");
-  f.className = "firework";
-  f.style.left = x + "px";
-  f.style.top = y + "px";
-  f.style.background = `hsl(${random(0,360)}, 90%, 60%)`;
-  document.body.appendChild(f);
-  setTimeout(() => f.remove(), 1600);
-}
+    <script>
+        const quotes = [
+            "May your year be as beautiful as your soul.",
+            "New chapters, same wonderful person.",
+            "Here is to the moments that take our breath away.",
+            "May your 2024 be filled with gentle light.",
+            "Thank you for being part of my journey."
+        ];
 
-/* Hearts */
-function heart() {
-  const h = document.createElement("div");
-  h.className = "heart";
-  h.textContent = "💖";
-  h.style.left = random(0, window.innerWidth) + "px";
-  h.style.bottom = "-30px";
-  document.body.appendChild(h);
-  setTimeout(() => h.remove(), 6000);
-}
+        let currentQuote = 0;
+        const quoteDisplay = document.getElementById('quote-display');
+        const bg = document.getElementById('bg');
 
-/* Quotes */
-const quotes = [
-  "A new year begins, not with fireworks, but with hope.",
-  "Time turns the page — may yours be written gently.",
-  "Not everything needs to be loud to be meaningful.",
-  "May this year unfold slowly, beautifully, and honestly.",
-  "Certain people make time feel kinder."
-];
+        // Typewriter effect for quotes
+        function typeQuote() {
+            let text = quotes[currentQuote];
+            quoteDisplay.style.opacity = 0;
+            
+            setTimeout(() => {
+                quoteDisplay.textContent = text;
+                quoteDisplay.style.opacity = 1;
+                quoteDisplay.style.transition = 'opacity 1.5s';
+            }, 1000);
 
-let quoteIndex = 0;
-let side = true;
+            currentQuote = (currentQuote + 1) % quotes.length;
+        }
 
-function showQuote() {
-  const q = document.createElement("div");
-  q.className = "quote " + (side ? "from-left" : "from-right");
-  q.textContent = quotes[quoteIndex % quotes.length];
-  document.body.appendChild(q);
-  setTimeout(() => q.remove(), 8000);
-  quoteIndex++;
-  side = !side;
-}
+        // Parallax Effect
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            bg.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.1)`;
+        });
 
-/* Intervals */
-setInterval(() => {
-  firework(random(100, window.innerWidth-100), random(100, window.innerHeight-200));
-}, 650);
+        // Create Falling Particles (Hearts and Stars)
+        function createParticle() {
+            const p = document.createElement('div');
+            const isHeart = Math.random() > 0.5;
+            p.className = 'particle';
+            p.innerHTML = isHeart ? '✨' : '❤';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = '-20px';
+            p.style.fontSize = (Math.random() * 10 + 10) + 'px';
+            p.style.opacity = Math.random();
+            p.style.color = isHeart ? '#f5d27a' : '#ff4d6d';
+            p.style.animation = `fall ${Math.random() * 3 + 4}s linear forwards`;
+            
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 7000);
+        }
 
-setInterval(heart, 900);
-setInterval(showQuote, 3600);
+        // Create Fireworks on Click
+        document.addEventListener('click', (e) => {
+            for(let i=0; i<8; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'spark';
+                spark.style.left = e.clientX + 'px';
+                spark.style.top = e.clientY + 'px';
+                spark.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                document.body.appendChild(spark);
+                setTimeout(() => spark.remove(), 1000);
+            }
+        });
 
-/* Click fireworks */
-document.addEventListener("click", e => {
-  firework(e.clientX, e.clientY);
-});
-</script>
+        // Initialize
+        setInterval(createParticle, 300);
+        setInterval(typeQuote, 5000);
+        typeQuote();
 
+    </script>
 </body>
 </html>
