@@ -1,120 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy New Year Fatima!</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy New Year Fatima</title>
+
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        width: 100vw;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: url('fatima.jpg') no-repeat center center;
-        background-size: cover;
-        overflow: hidden;
-        font-family: Arial, sans-serif;
-        color: #fff;
-        position: relative;
-    }
+:root {
+    --gold: #d4af37;
+    --pink: #ffb6c1;
+}
 
-    /* Dark overlay */
-    body::before {
-        content: "";
-        position: absolute;
-        top:0; left:0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.5);
-        z-index: 0;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    /* Countdown / text */
-    #countdown, #message {
-        position: relative;
-        z-index: 1;
-        font-size: 3em;
-        text-align: center;
-        text-shadow: 0 0 15px #ffdd59, 0 0 25px #ff6b81, 0 0 35px #ffdd59;
-        animation: fadeInOut 2s ease-in-out infinite;
-        word-break: break-word;
-        padding: 0 15px;
-    }
+body {
+    height: 100vh;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: radial-gradient(circle at top, #020024, #090979, #000);
+    color: white;
+    overflow: hidden;
+}
 
-    @keyframes fadeInOut {
-        0%,100% { opacity: 0; transform: scale(0.9);}
-        50% { opacity: 1; transform: scale(1.1);}
-    }
+/* FADED BACKGROUND PHOTO */
+.bg-photo {
+    position: fixed;
+    inset: 0;
+    background: url("fatima.jpg") center / cover no-repeat;
+    opacity: 0.12;
+    filter: blur(3px);
+    z-index: 0;
+    pointer-events: none;
+}
 
-    /* Fireworks */
-    .firework {
-        position: fixed;
-        border-radius: 50%;
-        width: 5px;
-        height: 5px;
-        background: white;
-        animation: explode 1s ease-out forwards;
-        z-index: 1;
-    }
+/* CENTER CONTENT */
+.center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+    padding: 20px;
+}
 
-    @keyframes explode {
-        0% { transform: scale(1) translate(0,0); opacity:1; }
-        100% { transform: scale(0.5) translate(var(--x), var(--y)); opacity:0; }
-    }
+h1 {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--gold);
+    text-shadow: 0 0 18px rgba(212, 175, 55, 0.45);
+}
+
+h2 {
+    margin-top: 12px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--pink);
+}
+
+.message {
+    margin-top: 18px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 520px;
+    color: #f5f5f5;
+}
+
+.signature {
+    margin-top: 14px;
+    font-style: italic;
+    color: #ffddee;
+}
+
+/* FIREWORKS */
+.firework {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: explode 1.6s ease-out forwards;
+    z-index: 20;
+}
+
+@keyframes explode {
+    from { transform: scale(1); opacity: 1; }
+    to   { transform: scale(26); opacity: 0; }
+}
+
+/* HEARTS */
+.heart {
+    position: absolute;
+    font-size: 18px;
+    animation: floatUp 6s linear forwards;
+    z-index: 15;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to   { transform: translateY(-900px); opacity: 0; }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    h2 { font-size: 1.3rem; }
+    .message { font-size: 1rem; }
+}
 </style>
 </head>
+
 <body>
 
-<h1 id="countdown"></h1>
-<h1 id="message" style="display:none;">🎉 Happy New Year, Fatima! 🎉</h1>
+<div class="bg-photo"></div>
+
+<div class="center">
+    <h1>Happy New Year</h1>
+    <h2>Fatima</h2>
+
+    <div class="message">
+        May this year bring you peace, clarity,<br>
+        aur bohat si khushiyan ✨
+    </div>
+
+    <div class="signature">
+        Hamesha khush raho — you truly deserve it 🌸
+    </div>
+</div>
+
+<audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_74b3db0f98.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-    const newYear = new Date("Jan 1, 2026 00:00:00").getTime();
-    const countdownEl = document.getElementById('countdown');
-    const messageEl = document.getElementById('message');
+// AUTO FIREWORKS
+setInterval(() => {
+    spawnFirework(
+        Math.random() * window.innerWidth,
+        Math.random() * window.innerHeight
+    );
+}, 500);
 
-    // Fireworks generator
-    function createFirework(){
-        const firework = document.createElement('div');
-        firework.classList.add('firework');
+// CLICK / TAP FIREWORKS
+document.addEventListener("click", e => {
+    spawnFirework(e.clientX, e.clientY);
+});
 
-        firework.style.left = Math.random() * window.innerWidth + 'px';
-        firework.style.top = Math.random() * window.innerHeight + 'px';
+function spawnFirework(x, y) {
+    const fw = document.createElement("div");
+    fw.className = "firework";
+    fw.style.left = x + "px";
+    fw.style.top = y + "px";
+    fw.style.background = `hsl(${Math.random() * 360}, 100%, 55%)`;
+    document.body.appendChild(fw);
+    setTimeout(() => fw.remove(), 1600);
+}
 
-        const angle = Math.random() * 2 * Math.PI;
-        const distance = Math.random() * 100 + 50;
-        firework.style.setProperty('--x', Math.cos(angle) * distance + 'px');
-        firework.style.setProperty('--y', Math.sin(angle) * distance + 'px');
-
-        document.body.appendChild(firework);
-        setTimeout(()=>{ firework.remove(); }, 1000);
-    }
-
-    let fireworksInterval;
-
-    function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = newYear - now;
-
-        if(distance <= 0){
-            countdownEl.style.display = "none";
-            messageEl.style.display = "block";
-            // start fireworks
-            fireworksInterval = setInterval(createFirework, 200);
-            return;
-        }
-
-        const days = Math.floor(distance / (1000*60*60*24));
-        const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-        const seconds = Math.floor((distance % (1000*60)) / 1000);
-
-        countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+// HEARTS
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.bottom = "0";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}, 800);
 </script>
+
 </body>
 </html>
