@@ -25,15 +25,9 @@ body {
   position: fixed;
   inset: 0;
   background: url("fatima.jpg") center/cover no-repeat;
-  opacity: 0.15;
-  filter: blur(4px);
-  animation: breathe 18s ease-in-out infinite;
+  opacity: 0.12;
+  filter: blur(3px);
   z-index: 0;
-}
-
-@keyframes breathe {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
 }
 
 /* Overlay */
@@ -44,7 +38,7 @@ body {
   z-index: 1;
 }
 
-/* Center */
+/* Center content */
 .center {
   position: relative;
   z-index: 10;
@@ -62,66 +56,91 @@ h1 {
   font-weight: 600;
   letter-spacing: 0.05em;
   color: #f5d27a;
-  text-shadow: 0 0 25px rgba(255,200,120,.4);
-  animation: fadeUp 2s ease forwards;
+  text-shadow: 0 0 22px rgba(255,200,100,.35);
+  animation: fadeIn 2s ease forwards;
 }
 
 p {
   margin-top: 16px;
-  font-size: 1.1rem;
-  color: #f4ecd8;
+  font-size: 1.15rem;
+  color: #f3e9d2;
   opacity: 0;
-  animation: fadeUp 2s ease forwards;
+  animation: fadeIn 2s ease forwards;
   animation-delay: 1.2s;
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Sparkles */
-.sparkle {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: gold;
-  border-radius: 50%;
-  opacity: .8;
-  animation: sparkleMove 8s linear forwards;
-}
-
-@keyframes sparkleMove {
-  from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(-120vh); opacity: 0; }
-}
-
-/* Fireworks particles */
-.fire {
+/* Fireworks */
+.firework {
   position: absolute;
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  animation: boom 1.8s ease-out forwards;
+  animation: explode 1.6s ease-out forwards;
+  z-index: 30;
 }
 
-@keyframes boom {
-  to {
-    transform: scale(18);
-    opacity: 0;
-  }
+@keyframes explode {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(24); opacity: 0; }
 }
 
 /* Hearts */
 .heart {
   position: absolute;
-  font-size: 22px;
-  animation: floatUp 7s linear forwards;
+  font-size: 20px;
+  animation: floatUp 6s linear forwards;
+  z-index: 25;
 }
 
 @keyframes floatUp {
   from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(-130vh); opacity: 0; }
+  to { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* Quotes */
+.quote {
+  position: absolute;
+  max-width: 80%;
+  font-size: clamp(1rem, 3.5vw, 1.4rem);
+  font-weight: 400;
+  color: #f6e7c1;
+  opacity: 0;
+  text-align: center;
+  line-height: 1.6;
+  text-shadow: 0 0 18px rgba(255,215,120,0.25);
+  z-index: 20;
+  pointer-events: none;
+}
+
+.from-left {
+  left: -100%;
+  top: 35%;
+  animation: slideLeft 8s ease-in-out forwards;
+}
+
+.from-right {
+  right: -100%;
+  top: 45%;
+  animation: slideRight 8s ease-in-out forwards;
+}
+
+@keyframes slideLeft {
+  0%   { opacity: 0; transform: translateX(0); }
+  20%  { opacity: 1; transform: translateX(110vw); }
+  80%  { opacity: 1; transform: translateX(110vw); }
+  100% { opacity: 0; transform: translateX(120vw); }
+}
+
+@keyframes slideRight {
+  0%   { opacity: 0; transform: translateX(0); }
+  20%  { opacity: 1; transform: translateX(-110vw); }
+  80%  { opacity: 1; transform: translateX(-110vw); }
+  100% { opacity: 0; transform: translateX(-120vw); }
 }
 </style>
 </head>
@@ -132,53 +151,71 @@ p {
 
 <div class="center">
   <h1>Happy New Year, Fatima</h1>
-  <p>May this year bring you calm days, bright smiles, and quiet happiness ✨</p>
+  <p>Some moments don’t make noise — they quietly become memories.</p>
 </div>
 
 <script>
-const rand = (a,b)=>Math.random()*(b-a)+a;
-
-// Fireworks
-function firework(x,y){
-  for(let i=0;i<12;i++){
-    const f=document.createElement("div");
-    f.className="fire";
-    f.style.left=x+"px";
-    f.style.top=y+"px";
-    f.style.background=`hsl(${rand(0,360)},90%,60%)`;
-    f.style.transform=`translate(${rand(-80,80)}px,${rand(-80,80)}px)`;
-    document.body.appendChild(f);
-    setTimeout(()=>f.remove(),1800);
-  }
+function random(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
-setInterval(()=>{
-  firework(rand(100,innerWidth-100),rand(100,innerHeight-200));
-},600);
+/* Fireworks */
+function firework(x, y) {
+  const f = document.createElement("div");
+  f.className = "firework";
+  f.style.left = x + "px";
+  f.style.top = y + "px";
+  f.style.background = `hsl(${random(0,360)}, 90%, 60%)`;
+  document.body.appendChild(f);
+  setTimeout(() => f.remove(), 1600);
+}
 
-// Hearts
-setInterval(()=>{
-  const h=document.createElement("div");
-  h.className="heart";
-  h.textContent="💖";
-  h.style.left=rand(0,innerWidth)+"px";
-  h.style.bottom="-30px";
+/* Hearts */
+function heart() {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.textContent = "💖";
+  h.style.left = random(0, window.innerWidth) + "px";
+  h.style.bottom = "-30px";
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),7000);
-},700);
+  setTimeout(() => h.remove(), 6000);
+}
 
-// Sparkles
-setInterval(()=>{
-  const s=document.createElement("div");
-  s.className="sparkle";
-  s.style.left=rand(0,innerWidth)+"px";
-  s.style.bottom="-10px";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),8000);
-},120);
+/* Quotes */
+const quotes = [
+  "A new year begins, not with fireworks, but with hope.",
+  "Time turns the page — may yours be written gently.",
+  "Not everything needs to be loud to be meaningful.",
+  "May this year unfold slowly, beautifully, and honestly.",
+  "Certain people make time feel kinder."
+];
 
-// Click fireworks
-addEventListener("click",e=>firework(e.clientX,e.clientY));
+let quoteIndex = 0;
+let side = true;
+
+function showQuote() {
+  const q = document.createElement("div");
+  q.className = "quote " + (side ? "from-left" : "from-right");
+  q.textContent = quotes[quoteIndex % quotes.length];
+  document.body.appendChild(q);
+  setTimeout(() => q.remove(), 8000);
+  quoteIndex++;
+  side = !side;
+}
+
+/* Intervals */
+setInterval(() => {
+  firework(random(100, window.innerWidth-100), random(100, window.innerHeight-200));
+}, 650);
+
+setInterval(heart, 900);
+setInterval(showQuote, 3600);
+
+/* Click fireworks */
+document.addEventListener("click", e => {
+  firework(e.clientX, e.clientY);
+});
 </script>
+
 </body>
 </html>
